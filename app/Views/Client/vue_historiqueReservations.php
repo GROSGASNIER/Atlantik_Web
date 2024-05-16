@@ -14,30 +14,31 @@
 
 <?php
 
-foreach ($historique as $ligne) 
+foreach ($historique as $resultat) 
 {
     echo "<tr>";
     echo "<td>";
-    echo $ligne->noRes;
+    echo $resultat->noRes;
     echo "</td>";
     echo "<td>";
-    echo $ligne->dateRes;
+    echo $resultat->dateRes;
     echo "</td>";
     echo "<td>";
-    echo ($historiquePorts[$ligne->noLiaison])->portDepart;
+    echo $resultat->portDepart;
     echo "</td>";
     echo "<td>";
-    echo ($historiquePorts[$ligne->noLiaison])->portArrivee;
+    echo $resultat->portArrivee;
     echo "</td>";
     echo "<td>";
-    echo $ligne->dateDepart;
+    echo $resultat->dateDepart;
     echo "</td>";
     echo "<td>";
-    echo $ligne->total;
+    echo $resultat->total;
     echo "</td>";
     echo "<td>";
-    if ($ligne->paye == "1") { echo 'Oui'; }
+    if ($resultat->paye == "1") { echo 'Oui'; }
     else { echo 'Non'; }
     echo "</td>";
     echo "</tr>";
 }
+echo $pager->links();

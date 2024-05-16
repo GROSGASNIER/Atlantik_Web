@@ -20,13 +20,4 @@ class ModeleLiaison extends Model
                     ->getResult();
     }
 
-    public function PortsDUneLiaison($noLiaison)
-    {
-        return $this->join('port poD', 'li.NOPORT_DEPART = poD.NOPORT', 'inner')
-                    ->join('port poA', 'li.NOPORT_ARRIVEE = poA.NOPORT', 'inner')
-                    ->select('poD.NOM as portDepart, poA.NOM as portArrivee')
-                    ->where(['li.NOLIAISON' => $noLiaison])
-                    ->get()
-                    ->getResult();
-    }
 } // Fin Classe

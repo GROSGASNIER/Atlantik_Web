@@ -16,11 +16,17 @@ class ModeleReservation extends Model
 
     public function ListerReservations($numeroClient)
     {
-        return $this->join('traversee tra', 'res.NOTRAVERSEE = tra.NOTRAVERSEE', 'inner')
-            ->select('res.DATEHEURE as dateRes, res.MONTANTTOTAL as total, res.PAYE as paye, res.NORESERVATION as noRes, tra.DATEHEUREDEPART as dateDepart, tra.NOLIAISON as noLiaison')
+        $this->join('traversee tra', 'res.NOTRAVERSEE = tra.NOTRAVERSEE', 'inner')
+            ->join('liaison li', 'tra.NOLIAISON = li.NOLIAISON', 'inner')
+            ->join('port poD', 'li.NOPORT_DEPART = poD.NOPORT', 'inner')
+            ->join('port poA', 'li.NOPORT_ARRIVEE = poA.NOPORT', 'inner')
+            ->select('res.DATEHEURE as dateRes, res.MONTANTTOTAL as total, res.PAYE as paye, res.NORESERVATION as noRes, tra.DATEHEUREDEPART as dateDepart, tra.NOLIAISON as noLiaison, poD.NOM as portDepart, poA.NOM as portArrivee')
             ->where(['res.NOCLIENT' => $numeroClient])
-            ->orderBy('res.DATEHEURE', 'desc')            
-            ->get()
-            ->getResult();
+            ->orderBy('res.DATEHEURE', 'desc');
+
+            return [
+                'resultat' => $this->paginate(2),
+                'pager' => $this->pager,
+            ];
     }
 }

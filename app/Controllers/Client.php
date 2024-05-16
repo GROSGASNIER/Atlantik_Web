@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 use App\Models\ModeleClient;
 use App\Models\ModeleReservation;
-use App\Models\ModeleLiaison;
 
 helper(['url', 'assets', 'form']);
 
@@ -98,18 +97,10 @@ class Client extends BaseController
     public function HistoriqueReservations()
     {
         $modeleReservation = new ModeleReservation();
-        $modeleLiaison = new modeleLiaison();
         $data['TitreDeLaPage'] = 'Historique des réservation';
-        $data['historique'] = $modeleReservation->ListerReservations(session()->get('noclient'));
-
-        foreach ($data['historique'] as $ligne)
-        {
-            if (!isset($data['historiquePorts'.$ligne->noLiaison]))
-            {
-                $data['historiquePorts'][$ligne->noLiaison] = $modeleLiaison->PortsDUneLiaison($ligne->noLiaison);
-            }
-        }
-
+        $resultat = $modeleReservation->ListerReservations(session()->get('noclient'));
+        $data['historique'] = $resultat['resultat'];
+        $data['pager'] = $resultat['pager'];
         return view('Templates/Header')
         .view('Client/vue_historiqueReservations', $data);
     }
