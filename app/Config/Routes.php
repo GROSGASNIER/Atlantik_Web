@@ -19,7 +19,7 @@ $routes->match(['GET', 'POST'], 'modifierCompte','Client::ModifierCompte', ["fil
 
 $routes->get('liaisons','Visiteur::Liaisons');
 
-$routes->get('traversees','Visiteur::Traversees');
+$routes->match(['GET', 'POST'], 'horaires/(:num)/','Visiteur::horairesTraversees');
 
 $routes->get('tarifs/(:num)', 'Visiteur::Tarifs/$1');
 

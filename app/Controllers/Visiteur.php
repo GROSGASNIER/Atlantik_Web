@@ -145,4 +145,9 @@ class Visiteur extends BaseController
         return view('Templates/Header')
         .view('Visiteur/vue_tarifs', $data);
     }
+
+    public function horairesTraversees($noLiaison, $date)
+    {
+
+    }
 }
