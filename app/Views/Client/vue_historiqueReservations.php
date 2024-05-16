@@ -24,10 +24,10 @@ foreach ($historique as $ligne)
     echo $ligne->dateRes;
     echo "</td>";
     echo "<td>";
-    echo ($historiquePorts.$ligne->noLiaison)->portDepart;
+    echo ($historiquePorts[$ligne->noLiaison])->portDepart;
     echo "</td>";
     echo "<td>";
-    echo ($historiquePorts.$ligne->noLiaison)->portArrivee;
+    echo ($historiquePorts[$ligne->noLiaison])->portArrivee;
     echo "</td>";
     echo "<td>";
     echo $ligne->dateDepart;

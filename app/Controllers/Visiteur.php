@@ -16,6 +16,11 @@ class Visiteur extends BaseController
         .view('Visiteur\vue_accueil.php');
     }
 
+    public function RedirigeVers($laBonneRoute)
+    {
+        return redirect()->route($laBonneRoute);
+    }
+
     public function Connection()
     {        
         helper(['form']);

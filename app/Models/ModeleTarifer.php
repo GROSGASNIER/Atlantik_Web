@@ -30,4 +30,4 @@ from tarifer
 inner join type on tarifer.NOTYPE = type.NOTYPE
 inner join periode on tarifer.NOPERIODE = periode.NOPERIODE
 inner join categorie on tarifer.LETTRECATEGORIE = categorie.LETTRECATEGORIE
-where NOLIAISON = 1
+where NOLIAISON = 1*/   

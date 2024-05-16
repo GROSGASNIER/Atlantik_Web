@@ -106,7 +106,7 @@ class Client extends BaseController
         {
             if (!isset($data['historiquePorts'.$ligne->noLiaison]))
             {
-                $data['historiquePorts'.$ligne->noLiaison] = $modeleLiaison->PortsDUneLiaison($ligne->noLiaison);
+                $data['historiquePorts'][$ligne->noLiaison] = $modeleLiaison->PortsDUneLiaison($ligne->noLiaison);
             }
         }
 

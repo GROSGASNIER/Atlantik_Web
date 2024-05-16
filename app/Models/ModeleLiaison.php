@@ -26,7 +26,7 @@ class ModeleLiaison extends Model
                     ->join('port poA', 'li.NOPORT_ARRIVEE = poA.NOPORT', 'inner')
                     ->select('poD.NOM as portDepart, poA.NOM as portArrivee')
                     ->where(['li.NOLIAISON' => $noLiaison])
-                    -get()
+                    ->get()
                     ->getResult();
     }
 } // Fin Classe
