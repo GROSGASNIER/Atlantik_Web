@@ -4,7 +4,7 @@ namespace App\Controllers;
 use App\Models\ModeleClient;
 use App\Models\ModeleLiaison;
 use App\Models\ModeleTarifer;
-use SebastianBergmann\Template\Template;
+use App\Models\ModeleSecteur;
 
 helper(['url', 'assets', 'form']);
 
@@ -146,8 +146,31 @@ class Visiteur extends BaseController
         .view('Visiteur/vue_tarifs', $data);
     }
 
-    public function horairesTraversees($noLiaison, $date)
+    public function horairesTraversees($noSecteur = null)
     {
+        $data['TitreDeLaPage'] = 'Veuillez séléctionner un secteur pour en choisir une liaison';
+        
+        $modeleSecteur = new ModeleSecteur();
+        $data['secteursRetournes'] = $modeleSecteur->listerSecteurs();
+
+        if (is_null($noSecteur))            //Je retourne d'abord les secteurs tout seuls si l'on n'en a pas selectionné
+        {
+            return view('Templates/Header')
+            .view('Visiteur/vue_horaires', $data);
+        }
+
+        $modeleLiaison = new ModeleLiaison();
+        $data['liaisonsRetournees'] = $modeleLiaison->LiaisonsDUnSecteur($noSecteur);
+
+        if (!$this->request->is('post')) {      //Quand le formulaire n'a pas été retourné
+            $data['TitreDeLaPage'] = 'Veuillez séléctionner une liaison et une date';
+            return view('Templates/Header')
+            .view('Visiteur/vue_horaires', $data);
+        }
+
+        $noLiaison = $this->request->getPost('txtnoLiaison');
+        $date = $this->request->getPost('txtdate');
+
 
     }
 }

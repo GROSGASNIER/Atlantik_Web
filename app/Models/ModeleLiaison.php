@@ -19,5 +19,14 @@ class ModeleLiaison extends Model
                     ->get()
                     ->getResult();
     }
+    public function LiaisonsDUnSecteur($noSecteur)
+    {
+        return $this->join('port poD', 'li.NOPORT_DEPART = poD.NOPORT', 'inner')
+                    ->join('port poA', 'li.NOPORT_ARRIVEE = poA.NOPORT', 'inner')
+                    ->select('li.NOLIAISON as noLiaison, poD.NOM as portDepart, poA.NOM as portArrivee')
+                    ->where(['li.NOSECTEUR' => $noSecteur])
+                    ->get()
+                    ->getResult();
+    }
 
 } // Fin Classe

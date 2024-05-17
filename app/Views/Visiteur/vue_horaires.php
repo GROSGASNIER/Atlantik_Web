@@ -11,16 +11,38 @@
 </head>
 <body>
 
+<? echo $TitreDeLaPage; ?>
+
 <nav class="navbar bg-light">
   <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link 1</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link 2</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link 3</a>
-    </li>
+    <?php
+    foreach ($secteursRetournes as $secteur)
+    {
+      echo '<li class="nav-item">
+      <a class="nav-link" href="horaires/'.$secteur->noSecteur.'">'. $secteur->nomSecteur. '</a>
+      </li>';
+    }
+    ?>
   </ul>
 </nav>
+
+<? if ($TitreDeLaPage == 'Veuillez séléctionner une liaison et une date')
+{
+  $options = [];
+
+  foreach ($liaisonsRetournees as $liaison)
+  {
+    ;
+  }
+  
+
+  echo form_open('horairesTraversees');
+  echo csrf_field(); 
+
+  echo form_dropdown('txtnoLiaison');
+
+  echo form_dropdown('txtdate');    
+
+  echo form_submit('submit', 'Afficher les traversées');
+  echo form_close();
+}
