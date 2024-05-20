@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<? echo $TitreDeLaPage; ?>
+<?php echo $TitreDeLaPage; ?>
 
 <nav class="navbar bg-light">
   <ul class="navbar-nav">
@@ -26,20 +26,20 @@
   </ul>
 </nav>
 
-<? if ($TitreDeLaPage == 'Veuillez séléctionner une liaison et une date')
+<?php if ($TitreDeLaPage == 'Veuillez séléctionner une liaison et une date')
 {
   $options = [];
 
   foreach ($liaisonsRetournees as $liaison)
   {
-    ;
+    $options[$liaison->noLiaison] = $liaison->portDepart. '-' .$liaison->portArrivee;
   }
   
 
   echo form_open('horairesTraversees');
   echo csrf_field(); 
 
-  echo form_dropdown('txtnoLiaison');
+  echo form_dropdown('txtnoLiaison', $options);
 
   echo form_dropdown('txtdate');    
 
