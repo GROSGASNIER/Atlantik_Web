@@ -6,7 +6,7 @@ use App\Models\ModeleLiaison;
 use App\Models\ModeleTarifer;
 use App\Models\ModeleSecteur;
 
-helper(['url', 'assets', 'form']);
+helper(['url', 'assets', 'form', 'date']);
 
 class Visiteur extends BaseController
 {

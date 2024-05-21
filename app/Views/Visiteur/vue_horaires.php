@@ -41,7 +41,7 @@
 
   echo form_dropdown('txtnoLiaison', $options);
 
-  echo form_dropdown('txtdate');    
+  echo timezone_select('custom-select', 'Europe/Paris');
 
   echo form_submit('submit', 'Afficher les traversées');
   echo form_close();
