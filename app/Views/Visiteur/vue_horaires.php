@@ -26,8 +26,7 @@
   </ul>
 </nav>
 
-<?php if ($TitreDeLaPage == 'Veuillez séléctionner une liaison et une date')
-{
+<?php if ($TitreDeLaPage != 'Veuillez séléctionner un secteur pour en choisir une liaison') {
   $options = [];
 
   foreach ($liaisonsRetournees as $liaison)
@@ -41,8 +40,12 @@
 
   echo form_dropdown('txtnoLiaison', $options);
 
-  echo timezone_select('custom-select', 'Europe/Paris');
+  echo '<input type="date" id="txtdate" name="birthday">';
 
   echo form_submit('submit', 'Afficher les traversées');
   echo form_close();
+
+  if ($TitreDeLaPage == 'Liste des traversées') {
+    
+  }
 }

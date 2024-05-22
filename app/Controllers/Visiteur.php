@@ -5,6 +5,7 @@ use App\Models\ModeleClient;
 use App\Models\ModeleLiaison;
 use App\Models\ModeleTarifer;
 use App\Models\ModeleSecteur;
+use App\Models\ModeleTraversee;
 
 helper(['url', 'assets', 'form', 'date']);
 
@@ -22,8 +23,7 @@ class Visiteur extends BaseController
     }
 
     public function Connection()
-    {        
-        helper(['form']);
+    {
         $data['TitreDeLaPage'] = 'Se connecter';
 
         if(is_null(session()->get('url'))) {
@@ -171,6 +171,22 @@ class Visiteur extends BaseController
         $noLiaison = $this->request->getPost('txtnoLiaison');
         $date = $this->request->getPost('txtdate');
 
+        $ModeleTraversee = new ModeleTraversee();
+        $condition = ['NOLIAISON'=>$noLiaison,'DATEHEUREDEPART'=>$date];
+        $traverseesRetournees = $ModeleTraversee->like($condition)->first();     //c koi le first????
 
+        if ($traverseesRetournees != null) {
+            $data['traverseesRetournees'] = $traverseesRetournees;
+            $data['TitreDeLaPage'] = 'Liste des traversées';
+
+            return view('Templates/Header')
+            .view('Visiteur/vue_horaires', $data);
+        }
+        else {
+            $data['TitreDeLaPage'] = 'Pas de traversée prévue';
+
+            return view('Templates/Header')
+            .view('Visiteur/vue_horaires', $data);
+        }
     }
 }
