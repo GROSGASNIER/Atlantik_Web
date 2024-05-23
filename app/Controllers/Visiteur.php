@@ -17,7 +17,7 @@ class Visiteur extends BaseController
         .view('Visiteur\vue_accueil.php');
     }
 
-    public function RedirigeVers($laBonneRoute)
+    public function RedirigeVers($laBonneRoute, $autre = null)
     {
         return redirect()->route($laBonneRoute);
     }
@@ -146,21 +146,22 @@ class Visiteur extends BaseController
         .view('Visiteur/vue_tarifs', $data);
     }
 
-    public function horairesTraversees($noSecteur = null)
+    public function horairesTraversees($noSecteur = null)           //Le dropdown du header ne marche pas
     {
+        if ($noSecteur != null) { session()->set('noSecteur', $noSecteur); }
+
         $data['TitreDeLaPage'] = 'Veuillez séléctionner un secteur pour en choisir une liaison';
         
         $modeleSecteur = new ModeleSecteur();
         $data['secteursRetournes'] = $modeleSecteur->listerSecteurs();
 
-        if (is_null($noSecteur))            //Je retourne d'abord les secteurs tout seuls si l'on n'en a pas selectionné
-        {
+        if (is_null($noSecteur) && !$this->request->is('post')) {           //Je retourne d'abord les secteurs tout seuls si l'on n'en a pas selectionné
             return view('Templates/Header')
             .view('Visiteur/vue_horaires', $data);
-        }
+        }        
 
         $modeleLiaison = new ModeleLiaison();
-        $data['liaisonsRetournees'] = $modeleLiaison->LiaisonsDUnSecteur($noSecteur);
+        $data['liaisonsRetournees'] = $modeleLiaison->LiaisonsDUnSecteur(session()->get('noSecteur'));
 
         if (!$this->request->is('post')) {      //Quand le formulaire n'a pas été retourné
             $data['TitreDeLaPage'] = 'Veuillez séléctionner une liaison et une date';
@@ -172,21 +173,14 @@ class Visiteur extends BaseController
         $date = $this->request->getPost('txtdate');
 
         $ModeleTraversee = new ModeleTraversee();
-        $condition = ['NOLIAISON'=>$noLiaison,'DATEHEUREDEPART'=>$date];
-        $traverseesRetournees = $ModeleTraversee->like($condition)->first();     //c koi le first????
+        $traverseesRetournees = $ModeleTraversee->listerTraverseeEtPlaces($noLiaison, $date);
 
         if ($traverseesRetournees != null) {
             $data['traverseesRetournees'] = $traverseesRetournees;
             $data['TitreDeLaPage'] = 'Liste des traversées';
-
-            return view('Templates/Header')
-            .view('Visiteur/vue_horaires', $data);
         }
-        else {
-            $data['TitreDeLaPage'] = 'Pas de traversée prévue';
-
-            return view('Templates/Header')
-            .view('Visiteur/vue_horaires', $data);
-        }
+        else { $data['TitreDeLaPage'] = 'Pas de traversée prévue'; }
+        return view('Templates/Header')
+              .view('Visiteur/vue_horaires', $data);
     }
 }

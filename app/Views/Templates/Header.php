@@ -22,7 +22,7 @@
         <a class="nav-link" href="liaisons">Afficher les liaisons</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="horaires">Affichier les horaires des traversées - Réservation</a>
+        <a class="nav-link" href="horairesTraversees">Afficher les horaires des traversées - Réservation</a>
       </li>
       <li class="nav-item dropdown">
       <?php

@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
 <body>
-
 <?php echo $TitreDeLaPage; ?>
 
 <nav class="navbar bg-light">
@@ -19,7 +9,7 @@
     foreach ($secteursRetournes as $secteur)
     {
       echo '<li class="nav-item">
-      <a class="nav-link" href="horaires/'.$secteur->noSecteur.'">'. $secteur->nomSecteur. '</a>
+      <a class="nav-link" href="horairesTraversees/'.$secteur->noSecteur.'">'. $secteur->nomSecteur. '</a>
       </li>';
     }
     ?>
@@ -29,8 +19,7 @@
 <?php if ($TitreDeLaPage != 'Veuillez séléctionner un secteur pour en choisir une liaison') {
   $options = [];
 
-  foreach ($liaisonsRetournees as $liaison)
-  {
+  foreach ($liaisonsRetournees as $liaison) {
     $options[$liaison->noLiaison] = $liaison->portDepart. '-' .$liaison->portArrivee;
   }
   
@@ -46,6 +35,28 @@
   echo form_close();
 
   if ($TitreDeLaPage == 'Liste des traversées') {
-    
+    ?> <table border=1>
+    <tr>
+        <th>N°</th>
+        <th>Heure</th>
+        <th>Bateau</th>        
+    </tr>
+    <?php
+    foreach ($traverseesRetournees as $ligne) {
+      echo "<tr>";
+      echo "<td>";
+      if(is_null(session()->get('prenom'))) { echo $ligne->noTraversee; }
+      else { echo '<p><a href="reserverTraversee/' .$ligne->noTraversee. '">' .$ligne->noTraversee. '</a></p>'; }
+      echo "</td>";
+      echo "<td>";
+      echo $ligne->heureDepart;
+      echo "</td>";
+      echo "<td>";
+      echo $ligne->bateau;
+      echo "</td>";
+      echo "</tr>";
+    }
+    if(is_null(session()->get('prenom'))) { echo 'Vous devez être connecté pour pouvoir réserver'; }
+    else { echo 'Pour réserver, cliquez sur un numéro de traversée'; }
   }
 }

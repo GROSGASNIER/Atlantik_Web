@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\ModeleClient;
 use App\Models\ModeleReservation;
+use App\Models\ModeleTraversee;
 
 helper(['url', 'assets', 'form']);
 
@@ -103,5 +104,10 @@ class Client extends BaseController
         $data['pager'] = $resultat['pager'];
         return view('Templates/Header')
         .view('Client/vue_historiqueReservations', $data);
+    }
+
+    public function reserverTraversee($noTraversee) 
+    {
+
     }
 }
