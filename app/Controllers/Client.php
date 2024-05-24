@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\ModeleClient;
 use App\Models\ModeleReservation;
 use App\Models\ModeleTraversee;
+use App\Models\ModeleTarifer;
 
 helper(['url', 'assets', 'form']);
 
@@ -107,7 +108,19 @@ class Client extends BaseController
     }
 
     public function reserverTraversee($noTraversee) 
-    {
+    {        
+        if (!$this->request->is('post')) {
+            $data['TitreDeLaPage'] = 'Valider la réservation';
+            session()->set('noTraversee', $noTraversee);    //Pour retenir le numéro de la traversee quand le formulaire sera confirmé
+            $ModeleTarifer = new ModeleTarifer();
+            $data['tarif'] = $ModeleTarifer->
+
+            return view('Templates/Header')
+            . view('Client/vue_reservation', $data);
+        }
+        $ModeleClient = new ModeleClient();
+        $condition = ['NOCLIENT'=>session()->get('noclient')];
+        $data['Client'] =  $ModeleClient->where($condition)->first();
 
     }
 }

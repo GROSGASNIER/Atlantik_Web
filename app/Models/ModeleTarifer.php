@@ -23,6 +23,17 @@ class ModeleTarifer extends Model
                     ->get()
                     ->getResult();
     }
+
+    public function listerTarifsReservation($numeroTraversee)
+    {
+        return $this->join('traversee tra', 'ta.NOLIAISON = tra.NOLIAISON', 'inner')
+                    ->join('type ty', 'ta.NOTYPE = ty.NOTYPE', 'inner')
+                    ->join('type ty', 'ta.LETTRECATEGORIE = ty.LETTRECATEGORIE', 'inner')
+                    ->select('ta.TARIF as tarif, ty.LIBELLE as libelleType, ty.NOTYPE as noType, ty.LETTRECATEGORIE as lettreCategorie')
+                    ->where(['tra.NOTRAVERSEE' => $numeroTraversee])
+                    ->get()
+                    ->getResult();
+    }
 } // Fin Classe
 
 /*select DISTINCT TARIF, categorie.LIBELLE, tarifer.LETTRECATEGORIE, type.LIBELLE, tarifer.NOTYPE, periode.DATEDEBUT, periode.DATEFIN
