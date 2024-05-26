@@ -108,12 +108,12 @@ class Client extends BaseController
     }
 
     public function reserverTraversee($noTraversee) 
-    {        
+    {
         if (!$this->request->is('post')) {
             $data['TitreDeLaPage'] = 'Valider la réservation';
             session()->set('noTraversee', $noTraversee);    //Pour retenir le numéro de la traversee quand le formulaire sera confirmé
             $ModeleTarifer = new ModeleTarifer();
-            $data['tarif'] = $ModeleTarifer->
+            $data['tarif'] = $ModeleTarifer->listerTarifsReservation(session()->get('noTraversee'));
 
             return view('Templates/Header')
             . view('Client/vue_reservation', $data);

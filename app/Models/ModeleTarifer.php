@@ -26,19 +26,13 @@ class ModeleTarifer extends Model
 
     public function listerTarifsReservation($numeroTraversee)
     {
-        return $this->join('traversee tra', 'ta.NOLIAISON = tra.NOLIAISON', 'inner')
-                    ->join('type ty', 'ta.NOTYPE = ty.NOTYPE', 'inner')
-                    ->join('type ty', 'ta.LETTRECATEGORIE = ty.LETTRECATEGORIE', 'inner')
-                    ->select('ta.TARIF as tarif, ty.LIBELLE as libelleType, ty.NOTYPE as noType, ty.LETTRECATEGORIE as lettreCategorie')
+        return $this->join('traversee tra', 'ta.NOLIAISON = tra.NOLIAISON', 'inner')            //il faut chercher plus tard dans le controller le libelle du type
+                    ->join('periode pe', 'ta.NOPERIODE = pe.NOPERIODE', 'inner')
+                    ->select('ta.TARIF as tarif, ta.NOTYPE as noType, ta.LETTRECATEGORIE as lettreCategorie')
                     ->where(['tra.NOTRAVERSEE' => $numeroTraversee])
+                    ->where('tra.DATEHEUREDEPART >=', 'pe.DATEDEBUT')
+                    ->where('tra.DATEHEUREDEPART <=', 'pe.DATEFIN')                    
                     ->get()
                     ->getResult();
     }
-} // Fin Classe
-
-/*select DISTINCT TARIF, categorie.LIBELLE, tarifer.LETTRECATEGORIE, type.LIBELLE, tarifer.NOTYPE, periode.DATEDEBUT, periode.DATEFIN
-from tarifer
-inner join type on tarifer.NOTYPE = type.NOTYPE
-inner join periode on tarifer.NOPERIODE = periode.NOPERIODE
-inner join categorie on tarifer.LETTRECATEGORIE = categorie.LETTRECATEGORIE
-where NOLIAISON = 1*/   
+}
