@@ -154,7 +154,7 @@ class Visiteur extends BaseController
         if (is_null($noSecteur) && !$this->request->is('post')) {           //Je retourne d'abord les secteurs tout seuls si l'on n'en a pas selectionné
             return view('Templates/Header')
             .view('Visiteur/vue_horaires', $data);
-        }        
+        }
 
         $modeleLiaison = new ModeleLiaison();
         $data['liaisonsRetournees'] = $modeleLiaison->LiaisonsDUnSecteur(session()->get('noSecteur'));

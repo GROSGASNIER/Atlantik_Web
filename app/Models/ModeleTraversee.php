@@ -18,4 +18,14 @@ class ModeleTraversee extends Model
                     ->get()
                     ->getResult();
     }
+
+    public function traverseeEtLiaison($noTraversee) {
+        return $this->join('liaison li', 'tra.NOLIAISON = li.NOLIAISON', 'inner')
+                    ->join('port poD', 'li.NOPORT_DEPART = poD.NOPORT', 'inner')
+                    ->join('port poA', 'li.NOPORT_ARRIVEE = poA.NOPORT', 'inner')
+                    ->select('tra.NOTRAVERSEE as numeroTraversee, tra.DATEHEUREDEPART as dateDepart, poD.NOM as portDepart, poA.NOM as portArrivee')
+                    ->where(['tra.NOTRAVERSEE' => $noTraversee])
+                    ->get()
+                    ->getResult();
+    }
 } // Fin Classe

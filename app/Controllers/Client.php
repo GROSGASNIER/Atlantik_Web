@@ -5,6 +5,7 @@ use App\Models\ModeleClient;
 use App\Models\ModeleReservation;
 use App\Models\ModeleTraversee;
 use App\Models\ModeleTarifer;
+use App\Models\ModeleType;
 
 helper(['url', 'assets', 'form']);
 
@@ -78,13 +79,15 @@ class Client extends BaseController
         ); // reference, libelle, prixht, quantiteenstock, image : champs de la table 'produit'
 
         $modelClient = new ModeleClient(); //instanciation du modèle
+
         $condition = ['NOCLIENT'=>session()->get('noclient')];
 
         $commande = $modelClient
             ->where($condition)
             ->set($donneesAInserer)
             ->update();
-        if ($commande) {
+
+        if ($commande) {            
             $utilisateurRetourne = $modelClient->where($condition)->first();
             session()->set('noclient', $utilisateurRetourne->NOCLIENT);         //pour l'instant pas de msg pour indoquer que l'on est connecté
             session()->set('nom', $utilisateurRetourne->NOM);
@@ -113,9 +116,17 @@ class Client extends BaseController
             session()->set('noTraversee', $noTraversee);    //Pour retenir le numéro de la traversee quand le formulaire sera confirmé
             $ModeleTarifer = new ModeleTarifer();
             $ModeleClient = new ModeleClient();
+            $ModeleType = new ModeleType();
+            $ModeleTraversee = new ModeleTraversee();
+
+            $data['libelle'] = [];
+            $data['traverseeEtLiaison'] = $ModeleTraversee->traverseeEtLiaison(session()->get('noTraversee'));
             $data['tarif'] = $ModeleTarifer->listerTarifsReservation(session()->get('noTraversee'));
             $data['client'] = $ModeleClient->where(['NOCLIENT'=>session()->get('noclient')])->first();
 
+            foreach ($data['tarif'] as $ligne) {
+                $data['libelle'][$ligne->lettreCategorie.$ligne->noType] = ($ModeleType->where(['LETTRECATEGORIE'=>$ligne->lettreCategorie, 'NOTYPE'=>$ligne->noType])->first())->LIBELLE;
+            }
             return view('Templates/Header')
             . view('Client/vue_reservation', $data);
         }
