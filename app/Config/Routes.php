@@ -34,3 +34,5 @@ $routes->get('tarifs/(:alpha)', 'Visiteur::RedirigeVers/$1');
 $routes->get('historique','Client::HistoriqueReservations', ["filter" => "filtreclient"]);
 
 $routes->get('reserverTraversee/(:num)', 'Client::reserverTraversee/$1', ["filter" => "filtreclient"]);
+
+$routes->get('reserverTraversee/(:alpha)', 'Visiteur::RedirigeVers/$1');

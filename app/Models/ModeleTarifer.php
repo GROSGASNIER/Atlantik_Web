@@ -30,8 +30,8 @@ class ModeleTarifer extends Model
                     ->join('periode pe', 'ta.NOPERIODE = pe.NOPERIODE', 'inner')
                     ->select('ta.TARIF as tarif, ta.NOTYPE as noType, ta.LETTRECATEGORIE as lettreCategorie')
                     ->where(['tra.NOTRAVERSEE' => $numeroTraversee])
-                    ->where('tra.DATEHEUREDEPART >=', 'pe.DATEDEBUT')
-                    ->where('tra.DATEHEUREDEPART <=', 'pe.DATEFIN')                    
+                    ->where('tra.DATEHEUREDEPART >= pe.DATEDEBUT')
+                    ->where('tra.DATEHEUREDEPART <= pe.DATEFIN')                    
                     ->get()
                     ->getResult();
     }

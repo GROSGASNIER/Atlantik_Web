@@ -1,5 +1,5 @@
 <html>
-<? echo $TitreDeLaPage; ?>
+<?php echo '<h2>'.$TitreDeLaPage.'</h2>'; ?>
 <body>
 <table border=1>
     <tr>
@@ -14,29 +14,29 @@
 
 <?php
 
-foreach ($historique as $resultat) 
+foreach ($historique as $ligne) 
 {
     echo "<tr>";
     echo "<td>";
-    echo $resultat->noRes;
+    echo $ligne->noRes;
     echo "</td>";
     echo "<td>";
-    echo $resultat->dateRes;
+    echo $ligne->dateRes;
     echo "</td>";
     echo "<td>";
-    echo $resultat->portDepart;
+    echo $ligne->portDepart;
     echo "</td>";
     echo "<td>";
-    echo $resultat->portArrivee;
+    echo $ligne->portArrivee;
     echo "</td>";
     echo "<td>";
-    echo $resultat->dateDepart;
+    echo $ligne->dateDepart;
     echo "</td>";
     echo "<td>";
-    echo $resultat->total;
+    echo $ligne->total;
     echo "</td>";
     echo "<td>";
-    if ($resultat->paye == "1") { echo 'Oui'; }
+    if ($ligne->paye == "1") { echo 'Oui'; }
     else { echo 'Non'; }
     echo "</td>";
     echo "</tr>";

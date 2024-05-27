@@ -19,8 +19,7 @@ class Client extends BaseController
     public function ModifierCompte() 
     {
         $ModeleClient = new ModeleClient();
-        $condition = ['NOCLIENT'=>session()->get('noclient')];
-        $utilisateurRetourne = $ModeleClient->where($condition)->first();
+        $utilisateurRetourne = $ModeleClient->where(['NOCLIENT'=>session()->get('noclient')])->first();     //J'ai supprimé la variable $condition (au cas ou y a probleme)
 
         $data['txtNom'] = $utilisateurRetourne->NOM;
         $data['txtPrenom'] = $utilisateurRetourne->PRENOM;
@@ -113,14 +112,14 @@ class Client extends BaseController
             $data['TitreDeLaPage'] = 'Valider la réservation';
             session()->set('noTraversee', $noTraversee);    //Pour retenir le numéro de la traversee quand le formulaire sera confirmé
             $ModeleTarifer = new ModeleTarifer();
+            $ModeleClient = new ModeleClient();
             $data['tarif'] = $ModeleTarifer->listerTarifsReservation(session()->get('noTraversee'));
+            $data['client'] = $ModeleClient->where(['NOCLIENT'=>session()->get('noclient')])->first();
 
             return view('Templates/Header')
             . view('Client/vue_reservation', $data);
         }
-        $ModeleClient = new ModeleClient();
-        $condition = ['NOCLIENT'=>session()->get('noclient')];
-        $data['Client'] =  $ModeleClient->where($condition)->first();
 
+        //ici on renverra le compte rendu de la reservation
     }
 }

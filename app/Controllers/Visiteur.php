@@ -49,8 +49,7 @@ class Visiteur extends BaseController
         $MdP = $this->request->getPost('txtMotDePasse');
 
         $ModeleClient = new ModeleClient();
-        $condition = ['MEL'=>$Mel,'MOTDEPASSE'=>$MdP];
-        $utilisateurRetourne = $ModeleClient->where($condition)->first();
+        $utilisateurRetourne = $ModeleClient->where(['MEL'=>$Mel,'MOTDEPASSE'=>$MdP])->first();
 
         if ($utilisateurRetourne != null) {
             session()->set('noclient', $utilisateurRetourne->NOCLIENT);         //pour l'instant pas de msg pour indoquer que l'on est connecté
@@ -72,9 +71,7 @@ class Visiteur extends BaseController
         }
 
         $data['TitreDeLaPage'] = 'Créer un compte';
-        /* TEST SI FORMULAIRE POSTE OU SI APPEL DIRECT (EN GET) */
         if (!$this->request->is('post')) {
-            /* le formulaire n'a pas été posté, on retourne le formulaire */
             return view('Templates/Header')
             . view('Visiteur/vue_creerUnCompte', $data);
         }
@@ -92,8 +89,7 @@ class Visiteur extends BaseController
             'txtMDPConfirmation' => 'required|matches[txtMDP]',
         ];
 
-        if (!$this->validate($reglesValidation)) {
-            /* formulaire non validé, on renvoie le formulaire */
+        if (!$this->validate($reglesValidation)) {  //les règles n'ont pas été respectées donc on renvoie le form
             $data['TitreDeLaPage'] = "Saisie incorrecte";
             return view('Templates/Header')
             . view('Visiteur/vue_creerUnCompte', $data);
@@ -111,8 +107,8 @@ class Visiteur extends BaseController
             'MEL' => $mel,
             $mdp = $this->request->getPost('txtMDP'),
             'MOTDEPASSE' => $mdp,
-        ); // reference, libelle, prixht, quantiteenstock, image : champs de la table 'produit'
-        $modelClient = new ModeleClient(); //instanciation du modèle
+        );
+        $modelClient = new ModeleClient();
 
         if ($modelClient->insert($donneesAInserer, false)) {
             $condition = ['MEL'=>$mel,'MOTDEPASSE'=>$mdp];
@@ -146,7 +142,7 @@ class Visiteur extends BaseController
         .view('Visiteur/vue_tarifs', $data);
     }
 
-    public function horairesTraversees($noSecteur = null)           //Le dropdown du header ne marche pas
+    public function horairesTraversees($noSecteur = null)
     {
         if ($noSecteur != null) { session()->set('noSecteur', $noSecteur); }
 
