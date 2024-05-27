@@ -1,8 +1,9 @@
 <?php echo '<h2>'.$TitreDeLaPage.'</h2>';
 echo form_open('reserverTraversee');
 echo csrf_field();
-//echo '<br><br>Liaison : '.$traverseeEtLiaison->portDepart. '-' .$traverseeEtLiaison->portArrivee;
-//echo '<br>Traversée n°' .$traverseeEtLiaison->numeroTraversee. ' le ' .$traverseeEtLiaison->dateDepart;      //ne pas oublier de séparer heure et date
+
+echo '<br><br>Liaison : '.$traverseeEtLiaison[0]->portDepart. '-' .$traverseeEtLiaison[0]->portArrivee;
+echo '<br>Traversée n°' .$traverseeEtLiaison[0]->numeroTraversee. ' le ' .$traverseeEtLiaison[0]->dateDepart;      //ne pas oublier de séparer heure et date
 
 echo '<br><br>Nom : '.$client->NOM;
 echo '<br>Adresse : '.$client->ADRESSE;

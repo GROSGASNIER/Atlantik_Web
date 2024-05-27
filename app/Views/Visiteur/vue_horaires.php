@@ -17,12 +17,12 @@
 </nav>
 
 <?php if ($TitreDeLaPage != 'Veuillez séléctionner un secteur pour en choisir une liaison') {
+  
   $options = [];
 
   foreach ($liaisonsRetournees as $liaison) {
     $options[$liaison->noLiaison] = $liaison->portDepart. '-' .$liaison->portArrivee;
-  }
-  
+  }  
 
   echo form_open('horairesTraversees');
   echo csrf_field(); 
