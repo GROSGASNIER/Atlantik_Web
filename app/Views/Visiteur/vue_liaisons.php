@@ -21,7 +21,7 @@ foreach ($listeLiaisons as $liaison)
     $secteurPrecedent = $liaison->secteur;
     echo "</td>";
     echo "<td>";
-    echo '<p><a href="tarifs/' .$liaison->code. '">' .$liaison->code. '</a></p>';
+    echo '<p><a href="'.site_url('tarifs/' .$liaison->code). '">' .$liaison->code. '</a></p>';
     echo "</td>";
     echo "<td>";
     echo $liaison->distance;

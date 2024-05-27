@@ -23,7 +23,7 @@ $routes->match(['GET', 'POST'], 'horairesTraversees','Visiteur::horairesTraverse
 
 $routes->match(['GET', 'POST'], 'horairesTraversees/(:num)','Visiteur::horairesTraversees/$1');
 
-$routes->match(['GET', 'POST'], 'horairesTraversees/(:alpha)/(:num)','Visiteur::RedirigeVers/$1/$2');
+$routes->match(['GET', 'POST'], 'horairesTraversees/(:alpha)','Visiteur::RedirigeVers/$1');
 
 $routes->match(['GET', 'POST'], 'horaires','Visiteur::horairesTraversees');
 

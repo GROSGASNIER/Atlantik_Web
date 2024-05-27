@@ -16,5 +16,5 @@
   echo form_submit('submit', 'Se connecter');
   echo form_close();
 
-  echo "<br><br><p><a href='creerUnCompte'>Je n'ai pas de compte</a></p>";
+  echo "<br><br><p><a href='".site_url('creerUnCompte')."'>Je n'ai pas de compte</a></p>";
 ?>

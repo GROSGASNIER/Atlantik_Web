@@ -19,25 +19,25 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="liaisons">Afficher les liaisons</a>
+        <?php echo '<a class="nav-link" href="'. site_url('liaisons') .'">Afficher les liaisons</a>'; ?>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="horairesTraversees">Afficher les horaires des traversées - Réservation</a>
+        <?php echo '<a class="nav-link" href="'. site_url('horairesTraversees') .'">Afficher les horaires des traversées - Réservation</a>'; ?>
       </li>
       <li class="nav-item dropdown">
       <?php
         if(!is_null(session()->get('prenom'))) {
           echo '<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">' .session()->get("prenom"). '</a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="historique">Historique des réservations</a>
-                  <a class="dropdown-item" href="modifierCompte">Modifier les informations du compte</a>
-                  <a class="dropdown-item" href="deconnection">Se déconnecter</a>
+                  <a class="dropdown-item" href="'.site_url('historique').'">Historique des réservations</a>
+                  <a class="dropdown-item" href="'.site_url('modifierCompte').'">Modifier les informations du compte</a>
+                  <a class="dropdown-item" href="'.site_url('deconnection').'">Se déconnecter</a>
                 </div>'; }
         else {
           echo '<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Compte</a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="creerUnCompte">Créer un compte</a>
-                  <a class="dropdown-item" href="connection">Se connecter</a>
+                  <a class="dropdown-item" href="'.site_url('creerUnCompte').'">Créer un compte</a>
+                  <a class="dropdown-item" href="'.site_url('connection').'">Se connecter</a>
                 </div>'; } ?>        
       </li>
     </ul>

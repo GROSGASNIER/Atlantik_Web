@@ -9,7 +9,7 @@
     foreach ($secteursRetournes as $secteur)
     {
       echo '<li class="nav-item">
-      <a class="nav-link" href="horairesTraversees/'.$secteur->noSecteur.'">'. $secteur->nomSecteur. '</a>
+      <a class="nav-link" href="'.site_url('horairesTraversees/'.$secteur->noSecteur).'">'. $secteur->nomSecteur. '</a>
       </li>';
     }
     ?>
@@ -36,7 +36,7 @@
 
   if ($TitreDeLaPage == 'Liste des traversées') {
     ?> <table border=1>
-    <tr>
+    <tr>                    
         <th>N°</th>
         <th>Heure</th>
         <th>Bateau</th>        
@@ -46,7 +46,7 @@
       echo "<tr>";
       echo "<td>";
       if(is_null(session()->get('prenom'))) { echo $ligne->noTraversee; }
-      else { echo '<p><a href="reserverTraversee/' .$ligne->noTraversee. '">' .$ligne->noTraversee. '</a></p>'; }
+      else { echo '<p><a href="'.site_url('reserverTraversee/' .$ligne->noTraversee). '">' .$ligne->noTraversee. '</a></p>'; }
       echo "</td>";
       echo "<td>";
       echo $ligne->heureDepart;
