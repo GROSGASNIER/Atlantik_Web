@@ -131,6 +131,24 @@ class Client extends BaseController
             . view('Client/vue_reservation', $data);
         }
 
-        //ici on renverra le compte rendu de la reservation
+        $insertion = False;     //bool pour valider que la personne à au moins réservé quelque chose avant d'enregistrer la réservation
+        $ModeleReservation = new ModeleReservation();
+
+        foreach ($_POST['txtquantite'] as $uneQuantite) {
+            if ($uneQuantite != 0) {     //FAIRE REGLES VALIDATIONS POUR PLACES RESTANTES + FAIRE REQUETE DE RECUPERATION DU PROCHAIN NORESERVATION
+                if ($insertion == False) {      //on récupère 1 fois le prochain noreservation
+                    $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc'))->NORESERVATION + 1;
+                }
+                $insertion = True;
+                //l'ajout dans la table enregistrer
+            }
+        }
+
+        if ($insertion == True) {
+            //faire la requete d'ajout dans la table reservation
+            //return view('Templates/Header').view('Client/vue_rapportReservation', $data);
+        }
+        //on renvoie le formulaire avec un nouveau titre
+        
     }
 }

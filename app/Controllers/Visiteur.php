@@ -7,7 +7,7 @@ use App\Models\ModeleTarifer;
 use App\Models\ModeleSecteur;
 use App\Models\ModeleTraversee;
 
-helper(['url', 'assets', 'form', 'date']);
+helper(['url', 'assets', 'form', 'date', 'assets']);
 
 class Visiteur extends BaseController
 {

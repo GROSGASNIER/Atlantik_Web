@@ -1,7 +1,12 @@
 <html>
 <?php echo '<h2>'.$TitreDeLaPage.'</h2>'; ?>
 <body>
-<table border=1>
+<div class="container-fluid"></div>
+<div class="row">
+<div class="col-sm-3" style="background-color:lavender;"></div>
+<div class="col-sm-6" style="background-color:lavenderblush;">
+
+<table class="table" border=1>
     <tr>
         <th>n° de réservation</th>
         <th>Date réservation</th>
