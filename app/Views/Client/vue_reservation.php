@@ -19,8 +19,13 @@ echo '<div class="col-sm-4" style="background-color:lavender;">';
 
 echo form_open('reserverTraversee');
 echo csrf_field();
+
+foreach ($placesMax as $ligne) {
+    echo '<br>Il reste '.$ligne->max.' places disponibles pour la catégorie '.$ligne->libelle;
+}
 ?>
 
+<br>
 <table class="table" border=1>
     <tr>
         <th></th>
@@ -30,7 +35,6 @@ echo csrf_field();
 
     <?php $compteur = 0;
     foreach ($tarif as $ligne) {
-
         echo "<tr>";
         echo "<td>";
         echo $libelle[$ligne->lettreCategorie.$ligne->noType];

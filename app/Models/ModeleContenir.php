@@ -10,7 +10,8 @@ class ModeleContenir extends Model
     public function nombrePlacesMax($lettreCategorie, $noTraversee)
     {
         return $this->join('traversee tra', 'co.NOBATEAU = tra.NOBATEAU', 'inner')
-                    ->select('co.CAPACITEMAX as max')
+                    ->join('categorie ca', 'co.LETTRECATEGORIE = ca.LETTRECATEGORIE', 'inner')
+                    ->select('co.CAPACITEMAX as max, ca.LIBELLE as libelle')
                     ->where(['co.LETTRECATEGORIE' => $lettreCategorie])
                     ->where(['tra.NOTRAVERSEE' => $noTraversee]);
     }

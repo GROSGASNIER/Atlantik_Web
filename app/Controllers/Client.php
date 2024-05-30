@@ -140,6 +140,9 @@ class Client extends BaseController
             . view('Client/vue_reservation', $data);
         }
 
+        $listeRequetes = []; $compteur = 0;
+        $sommePlaces = [];
+        $lettrePrecedente = null;
         $insertion = False;     //bool pour valider que la personne à au moins réservé quelque chose avant d'enregistrer la réservation
         $ModeleReservation = new ModeleReservation();
 
@@ -149,7 +152,16 @@ class Client extends BaseController
                     $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc')->first())->NORESERVATION + 1; //on récupère 1 fois le prochain noreservation
                 }
                 $insertion = True;
-                //l'ajout dans la table enregistrers
+                
+                if ($uneQuantite[] != $lettrePrecedente) {
+
+                }
+                $donneesAInserer = array(
+                    'NOM' => $this->request->getPost('txtNom'),
+                    
+                );
+                $listeRequetes[$compteur] = 
+                $compteur++;
             }
         }
 
@@ -161,7 +173,8 @@ class Client extends BaseController
         $data['TitreDeLaPage'] = "Vous n'avez rien réservé et devez recommencer l'opération";
 
         return view('Templates/Header')
-        . view('Client/vue_reservation', $data);
+        . view('Client/vue_rapportReservation', $data);
+
         
     }
 }
