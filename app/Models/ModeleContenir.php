@@ -1,0 +1,17 @@
+<?php
+namespace App\Models;
+use CodeIgniter\Model;
+
+class ModeleContenir extends Model
+{
+    protected $table = 'contenir co';
+    protected $returnType = 'object'; // résultats retournés sous forme d'objet(s)    
+    
+    public function nombrePlacesMax($lettreCategorie, $noTraversee)
+    {
+        return $this->join('traversee tra', 'co.NOBATEAU = tra.NOBATEAU', 'inner')
+                    ->select('co.CAPACITEMAX as max')
+                    ->where(['co.LETTRECATEGORIE' => $lettreCategorie])
+                    ->where(['tra.NOTRAVERSEE' => $noTraversee]);
+    }
+}

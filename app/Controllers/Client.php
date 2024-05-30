@@ -6,6 +6,7 @@ use App\Models\ModeleReservation;
 use App\Models\ModeleTraversee;
 use App\Models\ModeleTarifer;
 use App\Models\ModeleType;
+use App\Models\ModeleContenir;
 
 helper(['url', 'assets', 'form']);
 
@@ -118,14 +119,22 @@ class Client extends BaseController
             $ModeleClient = new ModeleClient();
             $ModeleType = new ModeleType();
             $ModeleTraversee = new ModeleTraversee();
+            $ModeleContenir = new ModeleContenir();
 
             $data['libelle'] = [];
+            $data['placesMax'] = [];
             $data['traverseeEtLiaison'] = $ModeleTraversee->traverseeEtLiaison(session()->get('noTraversee'));
             $data['tarif'] = $ModeleTarifer->listerTarifsReservation(session()->get('noTraversee'));
             $data['client'] = $ModeleClient->where(['NOCLIENT'=>session()->get('noclient')])->first();
 
-            foreach ($data['tarif'] as $ligne) {
+            $lettrePrecedente = null;
+
+            foreach ($data['tarif'] as $ligne) {        //on recupere le lielle et le nombre de place max par bateau
                 $data['libelle'][$ligne->lettreCategorie.$ligne->noType] = ($ModeleType->where(['LETTRECATEGORIE'=>$ligne->lettreCategorie, 'NOTYPE'=>$ligne->noType])->first())->LIBELLE;
+                if ($ligne->lettreCategorie != $lettrePrecedente) {
+                    $data['placesMax'][$ligne->lettreCategorie] = $ModeleContenir->nombrePlacesMax($ligne->lettreCategorie, $noTraversee)->first();
+                    $lettrePrecedente = $ligne->lettreCategorie;
+                }
             }
             return view('Templates/Header')
             . view('Client/vue_reservation', $data);
@@ -140,7 +149,7 @@ class Client extends BaseController
                     $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc')->first())->NORESERVATION + 1; //on récupère 1 fois le prochain noreservation
                 }
                 $insertion = True;
-                //l'ajout dans la table enregistrer         //DEMANDER AU PROF SI ON EST OBLIGE DE FAIRE LES TRUCS DU UC8
+                //l'ajout dans la table enregistrers
             }
         }
 
@@ -148,7 +157,11 @@ class Client extends BaseController
             //faire la requete d'ajout dans la table reservation
             //return view('Templates/Header').view('Client/vue_rapportReservation', $data);
         }
-        //on renvoie le formulaire avec un nouveau titre
+
+        $data['TitreDeLaPage'] = "Vous n'avez rien réservé et devez recommencer l'opération";
+
+        return view('Templates/Header')
+        . view('Client/vue_reservation', $data);
         
     }
 }
