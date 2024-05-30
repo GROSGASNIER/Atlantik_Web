@@ -136,11 +136,11 @@ class Client extends BaseController
 
         foreach ($_POST['txtquantite'] as $uneQuantite) {
             if ($uneQuantite != 0) {     //FAIRE REGLES VALIDATIONS POUR PLACES RESTANTES + FAIRE REQUETE DE RECUPERATION DU PROCHAIN NORESERVATION
-                if ($insertion == False) {      //on récupère 1 fois le prochain noreservation
-                    $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc'))->NORESERVATION + 1;
+                if ($insertion == False) {
+                    $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc')->first())->NORESERVATION + 1; //on récupère 1 fois le prochain noreservation
                 }
                 $insertion = True;
-                //l'ajout dans la table enregistrer
+                //l'ajout dans la table enregistrer         //DEMANDER AU PROF SI ON EST OBLIGE DE FAIRE LES TRUCS DU UC8
             }
         }
 

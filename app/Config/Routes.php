@@ -36,3 +36,5 @@ $routes->get('historique','Client::HistoriqueReservations', ["filter" => "filtre
 $routes->get('reserverTraversee/(:num)', 'Client::reserverTraversee/$1', ["filter" => "filtreclient"]);
 
 $routes->get('reserverTraversee/(:alpha)', 'Visiteur::RedirigeVers/$1');
+
+$routes->match(['GET', 'POST'], 'reserverTraversee', 'Client::reserverTraversee/$1', ["filter" => "filtreclient"]);
