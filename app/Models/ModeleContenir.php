@@ -15,4 +15,14 @@ class ModeleContenir extends Model
                     ->where(['co.LETTRECATEGORIE' => $lettreCategorie])
                     ->where(['tra.NOTRAVERSEE' => $noTraversee]);
     }
+
+    public function nombrePlacesMaxParLettre($lettreCategorie, $noTraversee) {
+        return $this->join('traversee tra', 'co.NOBATEAU = tra.NOBATEAU', 'inner')
+                    ->join('categorie ca', 'co.LETTRECATEGORIE = ca.LETTRECATEGORIE', 'inner')
+                    ->select('co.CAPACITEMAX as max')
+                    ->where(['co.LETTRECATEGORIE' => $lettreCategorie])
+                    ->where(['tra.NOTRAVERSEE' => $noTraversee])
+                    ->get()
+                    ->getFirstRow();
+    }
 }

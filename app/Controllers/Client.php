@@ -141,32 +141,46 @@ class Client extends BaseController
         }
 
         $listeRequetes = []; $compteur = 0;
+        $placesMax = [];
         $sommePlaces = [];
         $lettrePrecedente = null;
         $insertion = False;     //bool pour valider que la personne à au moins réservé quelque chose avant d'enregistrer la réservation
         $ModeleReservation = new ModeleReservation();
+        $ModeleContenir = new ModeleContenir();
 
-        foreach ($_POST['txtquantite'] as $uneQuantite) {
-            if ($uneQuantite != 0) {     //FAIRE REGLES VALIDATIONS POUR PLACES RESTANTES + FAIRE REQUETE DE RECUPERATION DU PROCHAIN NORESERVATION
-                if ($insertion == False) {
-                    $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc')->first())->NORESERVATION + 1; //on récupère 1 fois le prochain noreservation
-                }
-                $insertion = True;
+        foreach ($_POST['txtquantite'] as $uneQuantite) {            
+                                    //le [0] est la lettre de la catégorie dans la référence
+            if ($uneQuantite['Reference'][0] != $lettrePrecedente) {
+                echo $lettrePrecedente;
+                if ($sommePlaces[$lettrePrecedente] = 0) {echo $sommePlaces[$lettrePrecedente];die();}
+                if (isset($sommePlaces[$lettrePrecedente]) && isset($placesMax[$lettrePrecedente]) && $sommePlaces[$lettrePrecedente] > $placesMax[$lettrePrecedente]->max) {
+                    $data['TitreDeLaPage'] = 'Vous avez réservé trop de places pour une catégorie';
+                    return view('Templates/Header')
+                    . view('Client/vue_rapportReservation', $data);
+                }                    
                 
-                if ($uneQuantite[] != $lettrePrecedente) {
-
-                }
+                $lettrePrecedente = $uneQuantite['Reference'][0];      //on prend la lettre de la catégorie pour effectuer le calcul des places restantes
+                $placesMax[$lettrePrecedente] = $ModeleContenir->nombrePlacesMaxParLettre($lettrePrecedente, session()->get('noTraversee'));
+                $sommePlaces[$lettrePrecedente] = 0;                    
+            }
+            $sommePlaces[$lettrePrecedente] += $uneQuantite['Quantite'];
+            
+            $compteur++;     
+            if ($uneQuantite['Quantite'] != 0) {     //FAIRE REGLES VALIDATIONS POUR PLACES RESTANTES
+                if ($insertion == False) {      //on confirme qu'il y a bien eu au moins 1 insertion
+                    $nouvNoReservation = ($ModeleReservation->orderBy('NORESERVATION', 'desc')->first())->NORESERVATION + 1; //on récupère 1 fois le prochain noreservation
+                    $insertion = True;
+                }                
                 $donneesAInserer = array(
                     'NOM' => $this->request->getPost('txtNom'),
-                    
+                    //faire la suite
                 );
-                $listeRequetes[$compteur] = 
-                $compteur++;
-            }
+                $listeRequetes[$compteur] = 0;
+            }       
         }
 
         if ($insertion == True) {
-            //faire la requete d'ajout dans la table reservation
+            //faire la requete d'ajout dans la table reservation puis executer les requetes de vérifications des places restantes
             //return view('Templates/Header').view('Client/vue_rapportReservation', $data);
         }
 
